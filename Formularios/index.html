@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de registro</title>
+    <style>
+        body {
+            font-family: Aril, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+<h2>Formulario de Registro</h2>
+  <form id="registroForm">
+    <label>
+      Nombre:
+      <input type="text" id="nombre" name="nombre" required>
+    </label>
+    <label>
+      Correo Electrónico:
+      <input type="email" id="email" name="email" required>
+    </label>
+    <label>
+      Teléfono:
+      <input type="tel" id="telefono" name="telefono" pattern="[0-9]{10}" required>
+      <small>(10 dígitos, solo números)</small>
+    </label>
+
+    <fieldset>
+      <legend>Intereses:</legend>
+      <label><input type="checkbox" name="intereses" value="Tecnología"> Tecnología</label>
+      <label><input type="checkbox" name="intereses" value="Arte"> Arte</label>
+      <label><input type="checkbox" name="intereses" value="Deportes"> Deportes</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Horario Preferido:</legend>
+      <label><input type="radio" name="horario" value="Mañana" required> Mañana</label>
+      <label><input type="radio" name="horario" value="Tarde"> Tarde</label>
+      <label><input type="radio" name="horario" value="Noche"> Noche</label>
+    </fieldset>
+
+    <label>
+      Fecha del Evento:
+      <input type="date" id="fecha" name="fecha" required>
+    </label>
+
+    <label>
+      Subir Identificación (opcional):
+      <input type="file" id="archivo" name="archivo">
+    </label>
+
+    <button type="submit">Enviar</button>
+    <p class="error" id="mensajeError"></p>
+  </form>
+    <script>
+       document.getElementById('registroForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const error = document.getElementById('mensajeError');
+      error.textContent = ''; // Limpiar mensajes anteriores
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const intereses = [...document.querySelectorAll('input[name="intereses"]:checked')];
+      const horario = document.querySelector('input[name="horario"]:checked');
+      const fecha = document.getElementById('fecha').value;
+
+      if (!nombre || !email || !telefono || !horario || !fecha) {
+        error.textContent = 'Por favor, completa todos los campos obligatorios.';
+        return;
+      }
+
+      if (!/^[0-9]{10}$/.test(telefono)) {
+        error.textContent = 'El teléfono debe tener exactamente 10 dígitos numéricos.';
+        return;
+      }
+
+      if (intereses.length === 0) {
+        error.textContent = 'Selecciona al menos un interés.';
+        return;
+      }
+
+      // Si todo es válido
+      alert('Formulario enviado correctamente.');
+      this.reset(); // Opcional: Limpiar el formulario después del envío
+    });
+    </script>
+</body>
+</html>
